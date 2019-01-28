@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+
+  </style>
+</head>
+
+<body>
+  <div id='d'> ddd</div>
+
+  <script id="hello_template" type="text/html">
+   <h2><%=message%></h2>
+   <ul>
+        <% for(var userIndex in users) { %>
+          <li>#<%=users[userIndex]._id%>: <%=users[userIndex].name%></li>
+          <% } %>
+  </ul>
+  <div><% if (message==='hello, world') { %> <span>ddd</span> <%} %></div>
+  </script>
+
+  <script>
+    (function () {
+      var cache = {};
+      this.tmpl = function tmpl(str, data) {
+        var fn = !/\W/.test(str) ? cache[str] = cache[str] || tmpl(document.getElementById(str).innerHTML) :
+          new Function("obj",
+            "var p=[],print=function(){p.push.apply(p,arguments);};" + "with(obj){p.push('" +
+            str
+              .replace(/[\r\t\n]/g, " ")
+              .split("<%").join("\t")
+              .replace(/((^|%>)[^\t]*)'/g, "$1\r")
+              .replace(/\t=(.*?)%>/g, "',$1,'")
+              .split("\t").join("');")
+              .split("%>").join("p.push('")
+              .split("\r").join("\\'")
+            + "');}return p.join('');");
+
+        return data ? fn(data) : fn;
+      };
+    })();
+
+    var html = tmpl('hello_template', {
+      message: 'hello, world.',
+      users: [
+        { _id: 0, name: 'robin' },
+        { _id: 1, name: 'alex' }
+      ]
+    });
+    document.getElementById('d').innerHTML = html;
+    console.log(html);
+
+  </script>
+</body>
+
+</html>
