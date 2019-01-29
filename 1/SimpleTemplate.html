@@ -21,7 +21,7 @@
           <li>#<%=users[userIndex]._id%>: <%=users[userIndex].name%></li>
           <% } %>
   </ul>
-  <div><% if (message==='hello, world') { %> <span>ddd</span> <%} %></div>
+  <div><% if (message==='hello, world.') { %> <span>ddd</span> <%} %></div>
   </script>
 
   <script>
@@ -49,7 +49,8 @@
       message: 'hello, world.',
       users: [
         { _id: 0, name: 'robin' },
-        { _id: 1, name: 'alex' }
+        { _id: 1, name: 'alex' },
+        { _id: 1, name: 'alex111' }
       ]
     });
     document.getElementById('d').innerHTML = html;
